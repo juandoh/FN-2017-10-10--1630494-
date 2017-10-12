@@ -147,16 +147,18 @@ def http_handle(request_string):
 		if sendReply == True:
 			#f = open(curdir + sep + path)
 			f = open(path)
-			self.send_response(200)
-			self.send_header('Content-type', mimetype)
-			self.end_headers()
-			self.wfile.write(f.read())
+			data = f.read()
+			headers = "HTTP/1.1 200 OK\n" + "Content-Type: " + mimetype + "\n" + "Connection: close\n" + "\n"
+			print headers
+			print data
+			#answer = "%s%s\n"(headers, data)
+			answer = (headers, data)
 			f.close()
 		
-		return
+		return answer
 		
     except IOError:
-		self.send_error(404, 'File Not Found: %s' % self.path)
+		print ("ERROR 404. Ruta No Valida")
 
 if __name__ == "__main__":
     sys.exit(main())
